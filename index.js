@@ -10,15 +10,13 @@ const configuration = new Configuration({
   });
   const openai = new OpenAIApi(configuration);
   
-var corsOptions = {
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-  }
-const app = express();
-app.use(cors(corsOptions))
 
+const app = express();
+app.use(cors())
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 app.use(bodyParser.json())
 
 app.post("/api/generate", async (req, res)=>{
